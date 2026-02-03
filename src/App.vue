@@ -1,11 +1,15 @@
 <script setup>
 import { useAreaStore } from '@/stores/area';
+import { usePharmacyStore } from '@/stores/pharmacy';
 import { onMounted } from 'vue';
 import AsideMenu from './components/AsideMenu.vue';
 
 onMounted(() => {
   const areaStore = useAreaStore();
+  const pharmacyStore = usePharmacyStore();
+
   areaStore.fetchAreaData();
+  pharmacyStore.fetchPharmacies();
 });
 </script>
 

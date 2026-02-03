@@ -1,9 +1,11 @@
 <script setup>
 import { useAreaStore } from '@/stores/area';
+import { usePharmacyStore } from '@/stores/pharmacy';
 import { storeToRefs } from 'pinia';
 import { watchEffect } from 'vue';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
+const { filteredPharmacies } = storeToRefs(usePharmacyStore());
 
 watchEffect(() => {
   currDistrict.value = districtList.value.length > 0 ? districtList.value[0] : '';
@@ -33,60 +35,20 @@ watchEffect(() => {
     </div>
 
     <ul class="store-lists">
-      <li class="store-info wraps">
-        <h1>ＸＸ藥局</h1>
+      <li class="store-info wraps" v-for="pharmacy in filteredPharmacies" :key="pharmacy.id">
+        <h1>{{ pharmacy.name }}</h1>
 
         <div class="mask-info">
           <font-awesome-icon icon="fa-solid fa-head-side-mask" />
-          <span>大人口罩: 100 個</span>
+          <span>大人口罩: {{ pharmacy.mask_adult }}</span>
         </div>
 
         <div class="mask-info">
           <font-awesome-icon icon="fa-solid fa-baby" />
-          <span>兒童口罩: 100 個</span>
+          <span>兒童口罩: {{ pharmacy.mask_child }}</span>
         </div>
 
-        <div class="mask-info">最後更新時間:</div>
-
-        <button class="btn-store-detail">
-          <font-awesome-icon icon="fa-solid fa-info-circle" />
-          看詳細資訊
-        </button>
-      </li>
-      <li class="store-info wraps">
-        <h1>ＸＸ藥局</h1>
-
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-head-side-mask" />
-          <span>大人口罩: 100 個</span>
-        </div>
-
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-baby" />
-          <span>兒童口罩: 100 個</span>
-        </div>
-
-        <div class="mask-info">最後更新時間:</div>
-
-        <button class="btn-store-detail">
-          <font-awesome-icon icon="fa-solid fa-info-circle" />
-          看詳細資訊
-        </button>
-      </li>
-      <li class="store-info wraps">
-        <h1>ＸＸ藥局</h1>
-
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-head-side-mask" />
-          <span>大人口罩: 100 個</span>
-        </div>
-
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-baby" />
-          <span>兒童口罩: 100 個</span>
-        </div>
-
-        <div class="mask-info">最後更新時間:</div>
+        <div class="mask-info">最後更新時間: {{ pharmacy.updated }}</div>
 
         <button class="btn-store-detail">
           <font-awesome-icon icon="fa-solid fa-info-circle" />
