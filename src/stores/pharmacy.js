@@ -3,12 +3,17 @@ import { computed, ref } from 'vue';
 import { useAreaStore } from './area';
 
 export const usePharmacyStore = defineStore('pharmacy', () => {
-  const areaStore = useAreaStore();
   const allData = ref([]);
+  const keyword = ref('');
 
   const filteredPharmacies = computed(() => {
+    const areaStore = useAreaStore();
     return allData.value.filter((pharmacy) => {
-      return pharmacy.county === areaStore.currCity && pharmacy.town === areaStore.currDistrict;
+      return (
+        pharmacy.county === areaStore.currCity &&
+        pharmacy.town === areaStore.currDistrict &&
+        pharmacy.name.includes(keyword.value)
+      );
     });
   });
 
@@ -18,8 +23,6 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
         'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json',
       );
       const data = await response.json();
-
-      console.log(data);
 
       allData.value = data.features.map((d) => ({
         ...d.properties,
@@ -33,6 +36,7 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
 
   return {
     allData,
+    keyword,
     filteredPharmacies,
     fetchPharmacies,
   };

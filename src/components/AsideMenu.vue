@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { watchEffect } from 'vue';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
-const { filteredPharmacies } = storeToRefs(usePharmacyStore());
+const { filteredPharmacies, keyword } = storeToRefs(usePharmacyStore());
 
 watchEffect(() => {
   currDistrict.value = districtList.value.length > 0 ? districtList.value[0] : '';
@@ -30,13 +30,13 @@ watchEffect(() => {
       <label>
         <font-awesome-icon icon="fa-solid fa-search-location" />
         關鍵字搜尋：
-        <input type="text" placeholder="請輸入關鍵字" />
+        <input type="text" placeholder="請輸入關鍵字" v-model="keyword" />
       </label>
     </div>
 
     <ul class="store-lists">
       <li class="store-info wraps" v-for="pharmacy in filteredPharmacies" :key="pharmacy.id">
-        <h1>{{ pharmacy.name }}</h1>
+        <h1 v-highlight="keyword">{{ pharmacy.name }}</h1>
 
         <div class="mask-info">
           <font-awesome-icon icon="fa-solid fa-head-side-mask" />
