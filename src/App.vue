@@ -3,6 +3,7 @@ import { useAreaStore } from '@/stores/area';
 import { usePharmacyStore } from '@/stores/pharmacy';
 import { onMounted } from 'vue';
 import AsideMenu from './components/AsideMenu.vue';
+import LightBox from './components/Lightbox.vue';
 
 onMounted(() => {
   const areaStore = useAreaStore();
@@ -17,6 +18,7 @@ onMounted(() => {
   <div id="app">
     <AsideMenu />
     <div class="mask-map" id="mask-map"></div>
+    <LightBox />
   </div>
 </template>
 

@@ -5,6 +5,7 @@ import { useAreaStore } from './area';
 export const usePharmacyStore = defineStore('pharmacy', () => {
   const allData = ref([]);
   const keyword = ref('');
+  const currOpenedId = ref(null);
 
   const filteredPharmacies = computed(() => {
     const areaStore = useAreaStore();
@@ -15,6 +16,10 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
         pharmacy.name.includes(keyword.value)
       );
     });
+  });
+
+  const currPharmacy = computed(() => {
+    return allData.value.find((pharmacy) => pharmacy.id === currOpenedId.value);
   });
 
   async function fetchPharmacies() {
@@ -37,7 +42,9 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
   return {
     allData,
     keyword,
+    currOpenedId,
     filteredPharmacies,
     fetchPharmacies,
+    currPharmacy,
   };
 });

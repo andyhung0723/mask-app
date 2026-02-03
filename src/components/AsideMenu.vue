@@ -1,11 +1,18 @@
 <script setup>
 import { useAreaStore } from '@/stores/area';
 import { usePharmacyStore } from '@/stores/pharmacy';
+import { useStateStore } from '@/stores/state';
 import { storeToRefs } from 'pinia';
 import { watchEffect } from 'vue';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
-const { filteredPharmacies, keyword } = storeToRefs(usePharmacyStore());
+const { filteredPharmacies, keyword, currOpenedId } = storeToRefs(usePharmacyStore());
+const { showModal } = storeToRefs(useStateStore());
+
+const openInfoBox = (id) => {
+  showModal.value = true;
+  currOpenedId.value = id;
+};
 
 watchEffect(() => {
   currDistrict.value = districtList.value.length > 0 ? districtList.value[0] : '';
@@ -50,7 +57,7 @@ watchEffect(() => {
 
         <div class="mask-info">最後更新時間: {{ pharmacy.updated }}</div>
 
-        <button class="btn-store-detail">
+        <button class="btn-store-detail" @click="openInfoBox(pharmacy.id)">
           <font-awesome-icon icon="fa-solid fa-info-circle" />
           看詳細資訊
         </button>
