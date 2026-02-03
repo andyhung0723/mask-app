@@ -1,12 +1,17 @@
 <script setup>
-import AsideMenu from './components/asideMenu.vue';
+import { useAreaStore } from '@/stores/area';
+import { onMounted } from 'vue';
+import AsideMenu from './components/AsideMenu.vue';
+
+onMounted(() => {
+  const areaStore = useAreaStore();
+  areaStore.fetchAreaData();
+});
 </script>
 
 <template>
   <div id="app">
-    <!-- aside-menu 左側欄 -->
     <AsideMenu />
-    <!-- 地圖區塊 -->
     <div class="mask-map" id="mask-map"></div>
   </div>
 </template>

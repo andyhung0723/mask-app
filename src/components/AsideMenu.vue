@@ -1,15 +1,25 @@
-<script setup></script>
+<script setup>
+import { useAreaStore } from '@/stores/area';
+import { storeToRefs } from 'pinia';
+import { watchEffect } from 'vue';
+
+const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
+
+watchEffect(() => {
+  currDistrict.value = districtList.value.length > 0 ? districtList.value[0] : '';
+});
+</script>
 <template>
   <div class="aside-menu">
     <div class="wraps">
       <label>
-        縣市：<select>
-          <option>台北市</option>
+        縣市：<select v-model="currCity">
+          <option v-for="city in cityList" :key="city">{{ city }}</option>
         </select>
       </label>
       <label>
-        行政區：<select>
-          <option>北投區</option>
+        行政區：<select v-model="currDistrict">
+          <option v-for="district in districtList" :key="district">{{ district }}</option>
         </select>
       </label>
     </div>
