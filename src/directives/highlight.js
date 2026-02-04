@@ -1,30 +1,35 @@
+import DOMPurify from 'dompurify';
+
+const COLOR = 'black';
+const BACKGROUND_COLOR = 'yellow';
+
 const highlight = (el, binding) => {
-  const { value: keyword } = binding;
+  const {
+    text,
+    color = COLOR,
+    backgroundColor = BACKGROUND_COLOR,
+  } = typeof binding.value === 'object' ? binding.value : { text: binding.value };
+
   const originalText = el.textContent;
 
-  if (!keyword || !keyword.trim()) {
+  if (!text || !text.trim()) {
     el.innerHTML = originalText;
     return;
   }
 
-  const safeKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const safeKeyword = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   const regex = new RegExp(`(${safeKeyword})`, 'gi');
 
   const newHtml = originalText.replace(
     regex,
-    `<mark style="background-color: yellow; color: black; padding: 0 2px;">$1</mark>`,
+    `<span style="background-color: ${backgroundColor}; color: ${color}">$1</span>`,
   );
 
-  el.innerHTML = newHtml;
+  el.innerHTML = DOMPurify.sanitize(newHtml);
 };
 
 export default {
-  updated(el, binding) {
-    highlight(el, binding);
-  },
-
-  mounted(el, binding) {
-    highlight(el, binding);
-  },
+  updated: highlight,
+  mounted: highlight,
 };

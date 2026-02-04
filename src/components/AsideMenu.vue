@@ -48,7 +48,9 @@ watch(districtList, () => {
         :key="pharmacy.id"
         @click="$emit('triggerMakerPopup', pharmacy.id)"
       >
-        <h1 v-highlight="keyword">{{ pharmacy.name }}</h1>
+        <h1 v-highlight="{ text: keyword, color: 'white', backgroundColor: 'green' }">
+          {{ pharmacy.name }}
+        </h1>
 
         <div class="mask-info">
           <font-awesome-icon icon="fa-solid fa-head-side-mask" />
