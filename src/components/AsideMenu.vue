@@ -3,7 +3,7 @@ import { useAreaStore } from '@/stores/area';
 import { usePharmacyStore } from '@/stores/pharmacy';
 import { useStateStore } from '@/stores/state';
 import { storeToRefs } from 'pinia';
-import { watchEffect } from 'vue';
+import { watch } from 'vue';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
 const { filteredPharmacies, keyword, currOpenedId } = storeToRefs(usePharmacyStore());
@@ -14,8 +14,8 @@ const openInfoBox = (id) => {
   currOpenedId.value = id;
 };
 
-watchEffect(() => {
-  currDistrict.value = districtList.value.length > 0 ? districtList.value[0].name : {};
+watch(districtList, () => {
+  currDistrict.value = districtList.value.length > 0 ? districtList.value[0].name : '';
 });
 </script>
 <template>
