@@ -31,8 +31,8 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
 
       allData.value = data.features.map((d) => ({
         ...d.properties,
-        lat: d.geometry.coordinates[0],
-        lng: d.geometry.coordinates[1],
+        latitude: d.geometry.coordinates[1],
+        longitude: d.geometry.coordinates[0],
       }));
     } catch (error) {
       console.error('抓取資料失敗', error);

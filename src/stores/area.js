@@ -13,7 +13,12 @@ export const useAreaStore = defineStore('area', () => {
 
   const districtList = computed(() => {
     const cityObj = allData.value.find((item) => item.name === currCity.value);
-    return cityObj ? cityObj.districts.map((district) => district.name) : [];
+    return cityObj ? cityObj.districts : [];
+  });
+
+  const currDistrictInfo = computed(() => {
+    const cityObj = districtList.value.find((item) => item.name === currDistrict.value);
+    return cityObj || null;
   });
 
   async function fetchAreaData() {
@@ -31,6 +36,7 @@ export const useAreaStore = defineStore('area', () => {
   return {
     currCity,
     currDistrict,
+    currDistrictInfo,
     allData,
     cityList,
     districtList,

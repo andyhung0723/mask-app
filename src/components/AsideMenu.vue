@@ -15,7 +15,7 @@ const openInfoBox = (id) => {
 };
 
 watchEffect(() => {
-  currDistrict.value = districtList.value.length > 0 ? districtList.value[0] : '';
+  currDistrict.value = districtList.value.length > 0 ? districtList.value[0].name : {};
 });
 </script>
 <template>
@@ -28,7 +28,7 @@ watchEffect(() => {
       </label>
       <label>
         行政區：<select v-model="currDistrict">
-          <option v-for="district in districtList" :key="district">{{ district }}</option>
+          <option v-for="district in districtList" :key="district.id">{{ district.name }}</option>
         </select>
       </label>
     </div>
@@ -42,7 +42,12 @@ watchEffect(() => {
     </div>
 
     <ul class="store-lists">
-      <li class="store-info wraps" v-for="pharmacy in filteredPharmacies" :key="pharmacy.id">
+      <li
+        class="store-info wraps"
+        v-for="pharmacy in filteredPharmacies"
+        :key="pharmacy.id"
+        @click="$emit('triggerMakerPopup', pharmacy.id)"
+      >
         <h1 v-highlight="keyword">{{ pharmacy.name }}</h1>
 
         <div class="mask-info">

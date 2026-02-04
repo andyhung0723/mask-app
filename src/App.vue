@@ -1,9 +1,15 @@
 <script setup>
 import { useAreaStore } from '@/stores/area';
 import { usePharmacyStore } from '@/stores/pharmacy';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import AsideMenu from './components/AsideMenu.vue';
-import LightBox from './components/Lightbox.vue';
+import LightBox from './components/LightBox.vue';
+import MaskMap from './components/MaskMap.vue';
+
+const map = ref(null);
+const openPopup = (id) => {
+  map.value.triggerPopup(id);
+};
 
 onMounted(() => {
   const areaStore = useAreaStore();
@@ -16,8 +22,8 @@ onMounted(() => {
 
 <template>
   <div id="app">
-    <AsideMenu />
-    <div class="mask-map" id="mask-map"></div>
+    <AsideMenu @triggerMakerPopup="openPopup" ref="menu" />
+    <MaskMap ref="map" />
     <LightBox />
   </div>
 </template>
