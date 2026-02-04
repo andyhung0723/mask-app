@@ -1,22 +1,18 @@
 <script setup>
+import { usePharmacyFilter } from '@/composables/usePharmacyFilter';
 import { useAreaStore } from '@/stores/area';
 import { usePharmacyStore } from '@/stores/pharmacy';
-import { useStateStore } from '@/stores/state';
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
-const { filteredPharmacies, keyword, currOpenedId } = storeToRefs(usePharmacyStore());
-const { showModal } = storeToRefs(useStateStore());
+const { keyword, currOpenedId, showModal } = storeToRefs(usePharmacyStore());
+
+const { filteredPharmacies } = usePharmacyFilter();
 
 const openInfoBox = (id) => {
   showModal.value = true;
   currOpenedId.value = id;
 };
-
-watch(districtList, () => {
-  currDistrict.value = districtList.value.length > 0 ? districtList.value[0].name : '';
-});
 </script>
 <template>
   <div class="aside-menu">

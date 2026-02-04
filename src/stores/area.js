@@ -1,19 +1,27 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 export const useAreaStore = defineStore('area', () => {
-  const currCity = ref('臺北市');
+  const areaData = ref([]);
+  const currCity = ref('');
   const currDistrict = ref('');
-  const allData = ref([]);
 
   const cityList = computed(() => {
-    const cities = allData.value.map((item) => item.name);
+    const cities = areaData.value.map((item) => item.name);
     return [...new Set(cities)];
   });
 
+  watch(cityList, () => {
+    currCity.value = cityList.value.length > 0 ? cityList.value[0] : '';
+  });
+
   const districtList = computed(() => {
-    const cityObj = allData.value.find((item) => item.name === currCity.value);
+    const cityObj = areaData.value.find((item) => item.name === currCity.value);
     return cityObj ? cityObj.districts : [];
+  });
+
+  watch(districtList, () => {
+    currDistrict.value = districtList.value.length > 0 ? districtList.value[0].name : '';
   });
 
   const currDistrictInfo = computed(() => {
@@ -27,17 +35,17 @@ export const useAreaStore = defineStore('area', () => {
         'https://raw.githubusercontent.com/kurotanshi/mask-map/master/raw/area-location.json',
       );
       const data = await response.json();
-      allData.value = data;
+      areaData.value = data;
     } catch (error) {
       console.error('抓取資料失敗:', error);
     }
   }
 
   return {
+    areaData,
     currCity,
     currDistrict,
     currDistrictInfo,
-    allData,
     cityList,
     districtList,
     fetchAreaData,

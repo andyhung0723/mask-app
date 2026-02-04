@@ -1,14 +1,12 @@
 <script setup>
 import { usePharmacyStore } from '@/stores/pharmacy';
-import { useStateStore } from '@/stores/state';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
-const { showModal } = storeToRefs(useStateStore());
-const { currPharmacy } = storeToRefs(usePharmacyStore());
+const { currOpenedPharmacy, showModal } = storeToRefs(usePharmacyStore());
 
 const servicePeriods = computed(() => {
-  let servicePeriods = currPharmacy.value?.service_periods || '';
+  let servicePeriods = currOpenedPharmacy.value?.service_periods || '';
   servicePeriods = servicePeriods.replace(/N/g, 'O').replace(/Y/g, 'X');
 
   return servicePeriods
@@ -26,7 +24,7 @@ const close = () => {
       <div class="modal-wrapper" @click.self="close">
         <div class="modal-container">
           <div class="modal-body">
-            <h1 class="store-name">{{ currPharmacy?.name }}</h1>
+            <h1 class="store-name">{{ currOpenedPharmacy?.name }}</h1>
             <hr />
             <h2 class="title">營業時間</h2>
             <table>
@@ -58,9 +56,9 @@ const close = () => {
               </tbody>
             </table>
 
-            <h2 class="title">地址 {{ currPharmacy?.address }}</h2>
-            <h2 class="title">電話 {{ currPharmacy?.phone }}</h2>
-            <h2 class="title">備註 {{ currPharmacy?.note }}</h2>
+            <h2 class="title">地址 {{ currOpenedPharmacy?.address }}</h2>
+            <h2 class="title">電話 {{ currOpenedPharmacy?.phone }}</h2>
+            <h2 class="title">備註 {{ currOpenedPharmacy?.note }}</h2>
           </div>
         </div>
       </div>

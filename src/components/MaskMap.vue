@@ -1,6 +1,6 @@
 <script setup>
+import { usePharmacyFilter } from '@/composables/usePharmacyFilter';
 import { useAreaStore } from '@/stores/area';
-import { usePharmacyStore } from '@/stores/pharmacy';
 import L from 'leaflet';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
@@ -27,7 +27,7 @@ watch(currDistrictInfo, (value) => {
   }
 });
 
-const { filteredPharmacies } = storeToRefs(usePharmacyStore());
+const { filteredPharmacies } = usePharmacyFilter();
 
 watch(filteredPharmacies, (value) => {
   clearMarkers();

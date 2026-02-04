@@ -1,25 +1,14 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { useAreaStore } from './area';
 
 export const usePharmacyStore = defineStore('pharmacy', () => {
-  const allData = ref([]);
+  const pharmacyData = ref([]);
   const keyword = ref('');
+  const showModal = ref(false);
   const currOpenedId = ref(null);
 
-  const filteredPharmacies = computed(() => {
-    const areaStore = useAreaStore();
-    return allData.value.filter((pharmacy) => {
-      return (
-        pharmacy.county === areaStore.currCity &&
-        pharmacy.town === areaStore.currDistrict &&
-        pharmacy.name.includes(keyword.value)
-      );
-    });
-  });
-
-  const currPharmacy = computed(() => {
-    return allData.value.find((pharmacy) => pharmacy.id === currOpenedId.value);
+  const currOpenedPharmacy = computed(() => {
+    return pharmacyData.value.find((pharmacy) => pharmacy.id === currOpenedId.value);
   });
 
   async function fetchPharmacies() {
@@ -29,7 +18,7 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
       );
       const data = await response.json();
 
-      allData.value = data.features.map((d) => ({
+      pharmacyData.value = data.features.map((d) => ({
         ...d.properties,
         latitude: d.geometry.coordinates[1],
         longitude: d.geometry.coordinates[0],
@@ -40,11 +29,11 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
   }
 
   return {
-    allData,
+    pharmacyData,
     keyword,
     currOpenedId,
-    filteredPharmacies,
+    currOpenedPharmacy,
+    showModal,
     fetchPharmacies,
-    currPharmacy,
   };
 });
