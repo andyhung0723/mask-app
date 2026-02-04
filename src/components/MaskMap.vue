@@ -30,11 +30,11 @@ watch(currDistrictInfo, (value) => {
 const { filteredPharmacies } = storeToRefs(usePharmacyStore());
 
 watch(filteredPharmacies, (value) => {
-  clearMakers();
-  value.forEach((item) => addMaker(item));
+  clearMarkers();
+  value.forEach((item) => addMarker(item));
 });
 
-const addMaker = (pharmacy) => {
+const addMarker = (pharmacy) => {
   const ICON = {
     iconUrl:
       'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
@@ -56,7 +56,7 @@ const addMaker = (pharmacy) => {
   markers.value.push(marker);
 };
 
-const clearMakers = () => {
+const clearMarkers = () => {
   map.value.eachLayer((layer) => {
     if (layer instanceof L.Marker) {
       map.value.removeLayer(layer);
