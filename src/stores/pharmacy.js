@@ -6,6 +6,7 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
   const keyword = ref('');
   const showModal = ref(false);
   const currOpenedId = ref(null);
+  const isLoading = ref(false);
 
   const currOpenedPharmacy = computed(() => {
     return pharmacyData.value.find((pharmacy) => pharmacy.id === currOpenedId.value);
@@ -13,6 +14,8 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
 
   async function fetchPharmacies() {
     try {
+      isLoading.value = true;
+
       const response = await fetch(
         'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json',
       );
@@ -25,6 +28,8 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
       }));
     } catch (error) {
       console.error('抓取資料失敗', error);
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -35,5 +40,6 @@ export const usePharmacyStore = defineStore('pharmacy', () => {
     currOpenedPharmacy,
     showModal,
     fetchPharmacies,
+    isLoading,
   };
 });

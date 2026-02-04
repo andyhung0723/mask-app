@@ -5,7 +5,7 @@ import { usePharmacyStore } from '@/stores/pharmacy';
 import { storeToRefs } from 'pinia';
 
 const { currCity, currDistrict, cityList, districtList } = storeToRefs(useAreaStore());
-const { keyword, currOpenedId, showModal } = storeToRefs(usePharmacyStore());
+const { keyword, currOpenedId, showModal, isLoading } = storeToRefs(usePharmacyStore());
 
 const { filteredPharmacies } = usePharmacyFilter();
 
@@ -38,33 +38,50 @@ const openInfoBox = (id) => {
     </div>
 
     <ul class="store-lists">
-      <li
-        class="store-info wraps"
-        v-for="pharmacy in filteredPharmacies"
-        :key="pharmacy.id"
-        @click="$emit('triggerMakerPopup', pharmacy.id)"
-      >
-        <h1 v-highlight="{ text: keyword, color: 'white', backgroundColor: 'green' }">
-          {{ pharmacy.name }}
-        </h1>
+      <template v-if="isLoading">
+        <li class="store-info wraps skeleton" v-for="i in 8" :key="`skeleton-${i}`">
+          <h1><div class="skeleton-title skeleton-text skeleton-style"></div></h1>
+          <div class="mask-info">
+            <div class="skeleton-line skeleton-text skeleton-style"></div>
+          </div>
+          <div class="mask-info">
+            <div class="skeleton-line skeleton-text skeleton-style"></div>
+          </div>
+          <div class="mask-info">
+            <div class="skeleton-line skeleton-text skeleton-style"></div>
+          </div>
+          <div class="btn-store-detail skeleton-style"></div>
+        </li>
+      </template>
+      <template v-else>
+        <li
+          class="store-info wraps"
+          v-for="pharmacy in filteredPharmacies"
+          :key="pharmacy.id"
+          @click="$emit('triggerMakerPopup', pharmacy.id)"
+        >
+          <h1 v-highlight="{ text: keyword, color: 'white', backgroundColor: 'green' }">
+            {{ pharmacy.name }}
+          </h1>
 
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-head-side-mask" />
-          <span>大人口罩: {{ pharmacy.mask_adult }}</span>
-        </div>
+          <div class="mask-info">
+            <font-awesome-icon icon="fa-solid fa-head-side-mask" />
+            <span>大人口罩: {{ pharmacy.mask_adult }}</span>
+          </div>
 
-        <div class="mask-info">
-          <font-awesome-icon icon="fa-solid fa-baby" />
-          <span>兒童口罩: {{ pharmacy.mask_child }}</span>
-        </div>
+          <div class="mask-info">
+            <font-awesome-icon icon="fa-solid fa-baby" />
+            <span>兒童口罩: {{ pharmacy.mask_child }}</span>
+          </div>
 
-        <div class="mask-info">最後更新時間: {{ pharmacy.updated }}</div>
+          <div class="mask-info">最後更新時間: {{ pharmacy.updated }}</div>
 
-        <button class="btn-store-detail" @click="openInfoBox(pharmacy.id)">
-          <font-awesome-icon icon="fa-solid fa-info-circle" />
-          看詳細資訊
-        </button>
-      </li>
+          <button class="btn-store-detail" @click="openInfoBox(pharmacy.id)">
+            <font-awesome-icon icon="fa-solid fa-info-circle" />
+            看詳細資訊
+          </button>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -113,6 +130,7 @@ const openInfoBox = (id) => {
   }
   .mask-info {
     position: relative;
+    padding: 1px 0;
     > span {
       position: absolute;
       left: 1.8rem;
@@ -149,5 +167,38 @@ const openInfoBox = (id) => {
 .wraps {
   padding: 1em;
   border-bottom: 1px solid #666;
+}
+
+.skeleton {
+  pointer-events: none;
+
+  .skeleton-text:empty::before {
+    content: '\00a0';
+    display: inline-block;
+  }
+
+  .skeleton-style {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+
+  .skeleton-title {
+    width: 65%;
+  }
+
+  .skeleton-line {
+    width: 70%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>
