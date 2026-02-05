@@ -21,34 +21,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="app">
-    <AsideMenu @triggerMakerPopup="openPopup" ref="menu" />
-    <MaskMap ref="map" />
+  <div class="fixed inset-0 flex overflow-hidden">
+    <AsideMenu @triggerMakerPopup="openPopup" />
+    <MaskMap ref="map" class="w-3/4 flex-1 z-10" />
     <LightBox />
   </div>
 </template>
 
-<style scoped>
-#app {
-  display: block;
-  position: fixed;
-  overflow: hidden;
-  width: 100%;
-  height: 100vh;
-
-  > div {
-    float: left;
-  }
-}
-
-.mask-map {
-  position: relative;
-  width: 75%;
-  height: 100%;
-  background-color: #aaa;
-  z-index: 10;
-  &.full {
-    width: 100%;
-  }
-}
-</style>
+<style></style>

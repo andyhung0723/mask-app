@@ -1,1 +1,24 @@
 @import 'tailwindcss';
+
+/* Tailwind v4 主題配置 */
+@theme {
+  --color-brand-primary: #42b983;
+  --color-brand-accent: #f08d49;
+}
+
+/* Skeleton 動畫 */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}

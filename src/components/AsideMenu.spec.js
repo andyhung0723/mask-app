@@ -207,8 +207,11 @@ describe('AsideMenu', () => {
       pharmacyStore.keyword = '健康';
       wrapper = mountComponent();
 
+      // highlight directive 會將匹配文字包在 <span class="highlight"> 中
       const pharmacyName = wrapper.find('.store-info:not(.skeleton) h1');
-      expect(pharmacyName.attributes('v-highlight')).toBeDefined;
+      expect(pharmacyName.exists()).toBe(true);
+      // 檢查是否包含藥局名稱
+      expect(pharmacyName.text()).toContain('健康藥局');
     });
   });
 });

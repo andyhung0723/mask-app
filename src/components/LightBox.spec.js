@@ -22,10 +22,11 @@ describe('LightBox', () => {
 
     wrapper = mount(LightBox);
 
-    const modalMask = wrapper.find('.modal-mask');
-    expect(modalMask.exists()).toBe(true);
+    // 檢查最外層的 fixed container
+    const modalContainer = wrapper.find('div[class*="fixed"]');
+    expect(modalContainer.exists()).toBe(true);
     // v-show sets display:none, but element still exists
-    expect(modalMask.element.style.display).toBe('none');
+    expect(modalContainer.element.style.display).toBe('none');
   });
 
   it('should display when showModal is true', () => {
@@ -43,7 +44,7 @@ describe('LightBox', () => {
 
     wrapper = mount(LightBox);
 
-    expect(wrapper.find('.modal-mask').isVisible()).toBe(true);
+    expect(wrapper.find('div[class*="fixed"]').isVisible()).toBe(true);
   });
 
   it('should render pharmacy information correctly', () => {
@@ -61,7 +62,8 @@ describe('LightBox', () => {
 
     wrapper = mount(LightBox);
 
-    expect(wrapper.find('.store-name').text()).toBe('健康藥局');
+    // 使用 h1 作為語義選擇器
+    expect(wrapper.find('h1').text()).toBe('健康藥局');
     expect(wrapper.html()).toContain('台北市大安區信義路四段1號');
     expect(wrapper.html()).toContain('02-1234-5678');
     expect(wrapper.html()).toContain('週一至週五 9:00-18:00');
@@ -84,7 +86,8 @@ describe('LightBox', () => {
 
     expect(pharmacyStore.showModal).toBe(true);
 
-    await wrapper.find('.modal-wrapper').trigger('click');
+    // 點擊第一層 fixed 容器內的第二層 wrapper (有 @click.self)
+    await wrapper.findAll('div')[1].trigger('click');
 
     expect(pharmacyStore.showModal).toBe(false);
   });
@@ -101,7 +104,8 @@ describe('LightBox', () => {
 
     wrapper = mount(LightBox);
 
-    await wrapper.find('.modal-container').trigger('click');
+    // 點擊白色 modal 內容區域 (第三層 div)
+    await wrapper.findAll('div')[2].trigger('click');
 
     expect(pharmacyStore.showModal).toBe(true);
   });

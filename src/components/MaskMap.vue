@@ -78,7 +78,11 @@ defineExpose({
 </script>
 
 <template>
-  <div class="mask-map" id="mask-map"></div>
+  <div id="mask-map"></div>
 </template>
 
-<style></style>
+<style>
+.popup-name {
+  font-size: 1.25rem;
+}
+</style>
