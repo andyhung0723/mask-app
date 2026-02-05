@@ -1,4 +1,4 @@
-import '@/assets/scss/reset.scss';
+import '@/assets/css/style.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';

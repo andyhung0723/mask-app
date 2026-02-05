@@ -86,7 +86,7 @@ const openInfoBox = (id) => {
   </div>
 </template>
 
-<style lang="scss">
+<style>
 .aside-menu {
   width: 25%;
   height: 100%;

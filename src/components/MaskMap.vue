@@ -81,4 +81,4 @@ defineExpose({
   <div class="mask-map" id="mask-map"></div>
 </template>
 
-<style lang="scss"></style>
+<style></style>

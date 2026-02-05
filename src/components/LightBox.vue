@@ -66,7 +66,7 @@ const close = () => {
   </transition>
 </template>
 
-<style lang="scss">
+<style>
 .modal-mask {
   position: fixed;
   z-index: 100;

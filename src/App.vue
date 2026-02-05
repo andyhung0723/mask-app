@@ -28,7 +28,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 #app {
   display: block;
   position: fixed;
