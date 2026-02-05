@@ -42,3 +42,32 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Testing
+
+### Run Tests
+
+```sh
+# Run all tests once
+npm run test:run
+
+# Run tests in watch mode
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Test Coverage
+
+Current coverage thresholds:
+
+- Statements: 70%
+- Branches: 65%
+- Functions: 70%
+- Lines: 70%
+
+View detailed coverage report: `coverage/index.html`
